@@ -2,13 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const API_KEY = 'AIzaSyBPPpFZK-Ol4Ta4-YKu95avsfDrJikEWRw'; // replace with your API key
   const SHEET_ID = '1dzuDIhVH3zqsIoEtgikrDQLFxK3oTxtxzBS_0qsXw6Y'; // replace with your sheet ID
   const RANGE = 'Test!A1:B1000'; // replace with your data range
+  const POLL_INTERVAL = 60000; // Polling interval in milliseconds (e.g., 60000 ms = 1 minute)
+
+  let dataCache = [];
+  let reversed = false;
 
   const fetchSheetData = async () => {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}&t=${new Date().getTime()}`;
     try {
       const response = await fetch(url);
-      const data = await response.json();
-      return data.values; // returns the data in a 2D array
+      if (response.ok) {
+        const data = await response.json();
+        return data.values; // returns the data in a 2D array
+      } else {
+        console.error('Error fetching data from Google Sheets:', response.statusText);
+        return [];
+      }
     } catch (error) {
       console.error('Error fetching data from Google Sheets:', error);
       return [];
@@ -36,9 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadData = async () => {
     const sheetData = await fetchSheetData();
-    renderTable(sheetData);
+    if (sheetData) {
+      dataCache = sheetData;
+      renderTable(reversed ? sheetData.slice().reverse() : sheetData);
+    }
   };
 
+  const toggleOrder = () => {
+    reversed = !reversed;
+    renderTable(reversed ? dataCache.slice().reverse() : dataCache);
+  };
+
+  // Load data initially
   loadData();
+
+  // Set up polling
+  setInterval(loadData, POLL_INTERVAL);
+
+  // Add event listener to toggle button
+  document.getElementById('toggle-order').addEventListener('click', toggleOrder);
 });
 
