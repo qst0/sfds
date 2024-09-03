@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const API_KEY = 'AIzaSyBPPpFZK-Ol4Ta4-YKu95avsfDrJikEWRw'; // replace with your API key
   const SHEET_ID = '1dzuDIhVH3zqsIoEtgikrDQLFxK3oTxtxzBS_0qsXw6Y'; // replace with your sheet ID
-  const RANGE = 'Test!A1:B1000'; // replace with your data range
-  const POLL_INTERVAL = 60000; // Polling interval in milliseconds (e.g., 60000 ms = 1 minute)
+  const RANGE = 'Test!A1:B1000000'; // replace with your data range
+  const POLL_INTERVAL = 5000; // Polling interval in milliseconds (e.g., 60000 ms = 1 minute)
 
   let dataCache = [];
   let reversed = false;
