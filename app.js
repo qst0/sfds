@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.getElementById('table-body');
 
     if (data.length === 0) {
-      headers.innerHTML = '<tr><th>No Data</th></tr>';
+      headers.innerHTML = '<tr><th>No Data; Check the Console</th></tr>';
       body.innerHTML = '';
       return;
     }
