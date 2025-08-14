@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const POLL_INTERVAL = 5000; // Polling interval in milliseconds
 
   let dataCache = [];
-  let reversed = false;
+  let reversed = true;
 
   // Check if the URL contains ?flip or ?flip=true
   const params = new URLSearchParams(window.location.search);
